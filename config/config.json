@@ -1,0 +1,18 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "sync-group-app-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/syncGroupApp/SyncGroupAppWebPart.js",
+          "manifest": "./src/webparts/syncGroupApp/SyncGroupAppWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "SyncGroupAppWebPartStrings": "lib/webparts/syncGroupApp/loc/{locale}.js"
+  }
+}
