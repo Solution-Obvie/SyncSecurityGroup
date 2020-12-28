@@ -7,6 +7,57 @@
     font-family: "Segoe UI"
   }
 
+  .underlineTitle {
+    border-top: 3px solid gray ;
+    width:200px;
+    margin-top: 5px;
+  }
+
+  .groupInformationContainer{
+    display: flex;
+    padding: 10px;
+    justify-content: space-around;
+  }
+
+  .groupName{
+    font-size: 20px;
+    font-weight: 600;
+    color: #189f99;
+  }
+  
+
+  .buttonContainer{
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .syncButton{
+    padding: 10px;
+    border-radius: 6.25em; 
+    background-color: #189f99;
+    color: #fff;
+    width: 30%;
+    height: 50px;
+    transition: 0.3s;
+  }
+  .syncButton:hover{
+    background-color: #0d4643 ;
+  }  
+
+  .removeButton{
+    padding: 10px;
+    border-radius: 6.25em;
+    background-color: gray;
+    color: #fff; 
+    width: 30%;
+    height: 50px;
+    transition: 0.3s; 
+  }
+
+  .removeButton:hover{
+    background-color: rgb(54, 54, 54)
+  }
+
   .row {
     @include ms-Grid-row;
     @include ms-fontColor-white;
@@ -37,6 +88,13 @@
     @include ms-fontColor-white;
   }
 
+  .titleContainer{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+
+  }
   .appTitle{
     color: #189F99;
     font-weight: 600;

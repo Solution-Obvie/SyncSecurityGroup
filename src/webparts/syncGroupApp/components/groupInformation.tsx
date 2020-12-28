@@ -25,9 +25,19 @@ function GroupInformation(props){
     }
 
     return(
-        <div>
-            <div>Name of your group :</div>
-            <div>{props.group.Title}</div>
+        <div className={styles.groupInformationContainer}>
+            <div>
+            <div>Group Name :</div>
+            <div className={styles.groupName}>{props.group.Title}</div>
+            </div>
+          
+            {
+           props.group.isSecurityGroup && 
+           <div>
+          <div>Security Group Name :</div>
+          <div className={styles.groupName}>{props.group.SecurityGroupTitle}</div>
+          </div>
+            } 
         </div>
     )
 

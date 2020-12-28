@@ -32,7 +32,7 @@ function SelectSecurity(props) {
             <select  value={securityGroup} onChange={e => setSecurityGroup(e.currentTarget.value)}>
             {securityGroups.map(element => <option key={element.ID} value={element.ID}>{element.Title}</option>)}
             </select>
-            <GroupActionAdd ID={securityGroup} context={props.context} group={props.group}/>
+            <GroupActionAdd ID={securityGroup} context={props.context} group={props.group} setGroup={props.setGroup}  setProgress={props.setProgress}/>
         </div>
     )
 

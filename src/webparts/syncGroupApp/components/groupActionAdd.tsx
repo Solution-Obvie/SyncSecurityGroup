@@ -8,6 +8,17 @@ import { HttpClient, SPHttpClient, HttpClientConfiguration, HttpClientResponse, 
 
 export default function GroupActionAdd(props) {
 
+  function getItems() {
+    sp.web.lists.getByTitle("syncGroupAppSettings").items.get().then(items => {
+        items.forEach(item => {
+            console.log(item)
+           props.setGroup({"Title": item.Title, "ID": item.MicrosoftGroupID, "isSecurityGroup": item.isSecurityGroup,
+           "SecurityGroupTitle":item.SecurityGroupName,"SecurityGroupID":item.SecurityGroupID});
+        }); 
+        props.setProgress(false)       
+    })
+}
+
 
     var functionUrl = "https://powershellgroupoperation.azurewebsites.net/api/AddSecurityGroup";    
     function callAzureFunction() {    
@@ -22,12 +33,16 @@ export default function GroupActionAdd(props) {
           //  console.log(`SiteUrl: '${siteUrl}', UserName: '${userName}'`);    
             const postOptions: IHttpClientOptions = {    
             headers: requestHeaders,
-            body:`{ microsoftgroupID:  '${props.group.ID}', securitygroupID:  '${props.ID}'}`
+            body:`{ microsoftgroupID:  '${props.group.ID}', securitygroupID:  '${props.ID}', siteUrl: '${siteUrl}'}`
           };    
             
             props.context.httpClient.post(functionUrl, HttpClient.configurations.v1, postOptions).then((response) =>{     
              console.log(response) 
              console.log(response.nativeResponse.status)  
+             //window.location.reload(true);
+             if(response.nativeResponse.status == 200 ){
+               getItems();
+             }
             })    
             
                 .catch ((response: any) => {    
@@ -38,6 +53,7 @@ export default function GroupActionAdd(props) {
 
 
     function AddGroup(){
+      props.setProgress(true)
       callAzureFunction();
       props.context.msGraphClientFactory
       .getClient()
