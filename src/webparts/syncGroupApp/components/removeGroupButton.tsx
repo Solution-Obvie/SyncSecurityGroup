@@ -55,7 +55,7 @@ export default function RemoveGroupButton(props){
     
     return(
     
-        <PrimaryButton className={styles.removeButton} text="Remove" onClick={RemoveGroup}/>
+        <PrimaryButton className={styles.removeButton} text="Remove" onClick={RemoveGroup} disabled={props.progress}/>
     )
     
     }

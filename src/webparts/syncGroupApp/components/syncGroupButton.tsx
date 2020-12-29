@@ -21,7 +21,8 @@ export default function SyncGroupButton(props){
             
             props.context.httpClient.post(functionUrl, HttpClient.configurations.v1, postOptions).then((response) =>{     
              console.log(response) 
-             console.log(response.nativeResponse.status)  
+             console.log(response.nativeResponse.status) 
+             props.setProgress(false) 
             })    
             
                 .catch ((response: any) => {    
@@ -35,11 +36,12 @@ export default function SyncGroupButton(props){
 
     function SyncGroup(){
       callAzureFunction();
+      props.setProgress(true)
     }
 
 return(
 
-    <PrimaryButton className={styles.syncButton} text="Sync" onClick={SyncGroup}/>
+    <PrimaryButton className={styles.syncButton} text="Sync" onClick={SyncGroup} disabled={props.progress}/>
 )
 
 }

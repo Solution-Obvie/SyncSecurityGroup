@@ -24,13 +24,46 @@
     font-weight: 600;
     color: #189f99;
   }
-  
+  .flexAround{
+    display: flex;
+    justify-content: space-around;
+  }
+  .flexColumn{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 
   .buttonContainer{
     display: flex;
     justify-content: space-around;
   }
 
+  .selectButton{
+    width: 40%;
+  }
+  .addButton{
+    
+    background-color: #189f99;
+    color: #fff;
+    width: 30%;
+    transition: 0.3s;
+  }
+  .addButton:hover{
+    background-color: #156864 ;
+  } 
+  .addButton:disabled{
+    background-color: rgb(156, 154, 154);
+    color: black;
+  }
+  .selectContainer{
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+  }
+  .actionContainer{
+    margin-top:20px;
+  }
   .syncButton{
     padding: 10px;
     border-radius: 6.25em; 

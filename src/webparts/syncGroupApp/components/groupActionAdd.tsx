@@ -5,6 +5,7 @@ import { Item } from '@pnp/sp/items';
 import { MSGraphClient } from '@microsoft/sp-http';
 import * as MicrosoftGraph from '@microsoft/microsoft-graph-types';
 import { HttpClient, SPHttpClient, HttpClientConfiguration, HttpClientResponse, ODataVersion, IHttpClientConfiguration, IHttpClientOptions, ISPHttpClientOptions } from '@microsoft/sp-http'; 
+import { PrimaryButton } from 'office-ui-fabric-react';
 
 export default function GroupActionAdd(props) {
 
@@ -18,7 +19,7 @@ export default function GroupActionAdd(props) {
         props.setProgress(false)       
     })
 }
-
+  console.log(props.ID)
 
     var functionUrl = "https://powershellgroupoperation.azurewebsites.net/api/AddSecurityGroup";    
     function callAzureFunction() {    
@@ -30,7 +31,8 @@ export default function GroupActionAdd(props) {
           // var userName = "test";
           // var body = JSON.stringify({"name": "Test"})
           // console.log(body)
-          //  console.log(`SiteUrl: '${siteUrl}', UserName: '${userName}'`);    
+          //  console.log(`SiteUrl: '${siteUrl}', UserName: '${userName}'`);   
+          console.log(`{ microsoftgroupID:  '${props.group.ID}', securitygroupID:  '${props.ID}', siteUrl: '${siteUrl}'}`) 
             const postOptions: IHttpClientOptions = {    
             headers: requestHeaders,
             body:`{ microsoftgroupID:  '${props.group.ID}', securitygroupID:  '${props.ID}', siteUrl: '${siteUrl}'}`
@@ -80,11 +82,9 @@ export default function GroupActionAdd(props) {
         })
      
     }
-    var disabled = props.ID == "0" ? true : false;
+    var disabled = props.ID == "0"  || props.progress ? true : false;
 
     return (
-        <button onClick={AddGroup} disabled={disabled}>
-            Add
-        </button>
+      <PrimaryButton className={styles.addButton} onClick={AddGroup} disabled={disabled} text="Add" />
     )    
 }

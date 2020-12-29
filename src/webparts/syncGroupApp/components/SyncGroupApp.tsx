@@ -12,6 +12,7 @@ import GroupInformation from './groupInformation'
 import SyncGroupAppWebPart from '../SyncGroupAppWebPart';
 import SyncGroupButton from './syncGroupButton'
 import RemoveGroupButton from './removeGroupButton'
+import SecurityGroupInformation from './securityGroupInformation'
 import { ProgressIndicator } from 'office-ui-fabric-react/lib/ProgressIndicator';
 
 
@@ -35,24 +36,37 @@ export default function SyncGroupApp(props){
            <div className={styles.underlineTitle}></div>
          </div>
 
-        
-
-         {
+        <div className={styles.actionContainer}>
+        {
            !group.isSecurityGroup && 
-           <SelectSecurity context={props.context} group={group} setGroup={setGroup}  setProgress={setProgress}/>
-         } 
-         <GroupInformation group={group} setGroup={setGroup}/>
+           <div>
+                <GroupInformation group={group} setGroup={setGroup}/> 
+               <SelectSecurity context={props.context} group={group} setGroup={setGroup}  setProgress={setProgress} progress={progress}/>   
+            </div>  
+         }  
          {
          group.isSecurityGroup && 
-         <div className={styles.buttonContainer}>
-           <SyncGroupButton context={props.context} group={group}/>
-           <RemoveGroupButton context={props.context} group={group} setGroup={setGroup} setProgress={setProgress}/>
+         <div className={styles.flexAround}>
+           <div className={styles.flexColumn}>
+           <GroupInformation group={group} setGroup={setGroup}/> 
+           <SyncGroupButton context={props.context} group={group} setProgress={setProgress} progress={progress}/>
+            
+            </div>
+         <div className={styles.flexColumn}>
+            <SecurityGroupInformation group={group}/>
+           <RemoveGroupButton context={props.context} group={group} setGroup={setGroup} setProgress={setProgress} progress={progress}/>
+         </div>
          </div>
          }
+       
+       
          {
            progress &&
            <ProgressIndicator label="Sending Request.." description="A request has been sent. Please don't leave the page." />
          }
+        </div>
+
+      
 
         </div>
       </div>
