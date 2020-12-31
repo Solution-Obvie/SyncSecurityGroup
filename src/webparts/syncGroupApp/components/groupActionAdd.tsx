@@ -44,6 +44,14 @@ export default function GroupActionAdd(props) {
              //window.location.reload(true);
              if(response.nativeResponse.status == 200 ){
                getItems();
+               sp.web.lists.getByTitle("syncGroupAppSettings").items.get().then(items => {
+                items.forEach(item => {
+                    sp.web.lists.getByTitle("syncGroupAppSettings").items.getById(item.ID).update({
+                        SecurityGroupID: props.ID,
+                        SecurityGroupName : props.securityGroupName
+                    })
+                });
+            })
              }
             })    
             
@@ -57,32 +65,32 @@ export default function GroupActionAdd(props) {
     function AddGroup(){
       props.setProgress(true)
       callAzureFunction();
-      props.context.msGraphClientFactory
-      .getClient()
-      .then((client: MSGraphClient) => {
-        // get information about the current user from the Microsoft Graph
-        client
-        .api("/groups/{"+props.ID+"}")
-          .get((error, response: any, rawResponse?: any) => {
-            // handle the response
-           // console.log(JSON.stringify(response));
-            var responseJson = JSON.stringify(response)
-            var responseParsed =JSON.parse(responseJson)
-           // console.log("adding group")
-           // console.log(responseParsed)
-            sp.web.lists.getByTitle("syncGroupAppSettings").items.get().then(items => {
-                items.forEach(item => {
-                    sp.web.lists.getByTitle("syncGroupAppSettings").items.getById(item.ID).update({
-                        SecurityGroupID: props.ID,
-                        SecurityGroupName : responseParsed.displayName
-                    })
-                });
-            })
-          })
-        })
+      // props.context.msGraphClientFactory
+      // .getClient()
+      // .then((client: MSGraphClient) => {
+      //   // get information about the current user from the Microsoft Graph
+      //   client
+      //   .api("/groups/{"+props.ID+"}")
+      //     .get((error, response: any, rawResponse?: any) => {
+      //       // handle the response
+      //      // console.log(JSON.stringify(response));
+      //       var responseJson = JSON.stringify(response)
+      //       var responseParsed =JSON.parse(responseJson)
+      //      // console.log("adding group")
+      //      // console.log(responseParsed)
+      //       sp.web.lists.getByTitle("syncGroupAppSettings").items.get().then(items => {
+      //           items.forEach(item => {
+      //               sp.web.lists.getByTitle("syncGroupAppSettings").items.getById(item.ID).update({
+      //                   SecurityGroupID: props.ID,
+      //                   SecurityGroupName : responseParsed.displayName
+      //               })
+      //           });
+      //       })
+      //     })
+      //   })
      
     }
-    var disabled = props.ID == "0"  || props.progress ? true : false;
+    var disabled = props.ID == ""  || props.progress ? true : false;
 
     return (
       <PrimaryButton className={styles.addButton} onClick={AddGroup} disabled={disabled} text="Add" />

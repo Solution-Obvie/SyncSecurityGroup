@@ -1,0 +1,41 @@
+[
+    {
+        "resourceAppId":  "00000002-0000-0000-c000-000000000000",
+        "resourceAccess":  [
+                               {
+                                   "id":  "78c8a3c8-a07e-4b9e-af1b-b5ccab50a175",
+                                   "type":  "Role"
+                               }
+                           ]
+    },
+    {
+        "resourceAppId":  "00000003-0000-0000-c000-000000000000",
+        "resourceAccess":  [
+                               {
+                                   "id":  "19dbc75e-c2e2-444c-a770-ec69d8559fc7",
+                                   "type":  "Role"
+                               },
+                               {
+                                   "id":  "62a82d76-70ea-41e2-9197-370581804d09",
+                                   "type":  "Role"
+                               },
+                               {
+                                   "id":  "df021288-bdef-4463-88db-98f22de89214",
+                                   "type":  "Role"
+                               }
+                           ]
+    },
+    {
+        "resourceAppId":  "00000003-0000-0ff1-ce00-000000000000",
+        "resourceAccess":  [
+                               {
+                                   "id":  "678536fe-1083-478a-9c59-b99265e6b0d3",
+                                   "type":  "Role"
+                               },
+                               {
+                                   "id":  "df021288-bdef-4463-88db-98f22de89214",
+                                   "type":  "Role"
+                               }
+                           ]
+    }
+]

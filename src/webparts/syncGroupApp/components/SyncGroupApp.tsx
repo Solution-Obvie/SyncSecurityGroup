@@ -33,7 +33,7 @@ export default function SyncGroupApp(props){
            <div className={styles.appTitle}>
            Synchronise your group application 
            </div>
-           <div className={styles.underlineTitle}></div>
+           {/* <div className={styles.underlineTitle}></div> */}
          </div>
 
         <div className={styles.actionContainer}>
@@ -49,13 +49,13 @@ export default function SyncGroupApp(props){
          <div className={styles.flexAround}>
            <div className={styles.flexColumn}>
            <GroupInformation group={group} setGroup={setGroup}/> 
-           <SyncGroupButton context={props.context} group={group} setProgress={setProgress} progress={progress}/>
+           <SyncGroupButton className={styles.width50} context={props.context} group={group} setProgress={setProgress} progress={progress}/>
             
             </div>
          <div className={styles.flexColumn}>
             <SecurityGroupInformation group={group}/>
-           <RemoveGroupButton context={props.context} group={group} setGroup={setGroup} setProgress={setProgress} progress={progress}/>
-         </div>
+           <RemoveGroupButton className={styles.width50} context={props.context} group={group} setGroup={setGroup} setProgress={setProgress} progress={progress}/>
+         </div> 
          </div>
          }
        

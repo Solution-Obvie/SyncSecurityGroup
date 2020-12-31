@@ -3,9 +3,13 @@ import styles from './SyncGroupApp.module.scss';
 import { PrimaryButton } from 'office-ui-fabric-react';
 import { sp } from "@pnp/sp";
 import { HttpClient, SPHttpClient, HttpClientConfiguration, HttpClientResponse, ODataVersion, IHttpClientConfiguration, IHttpClientOptions, ISPHttpClientOptions } from '@microsoft/sp-http'; 
+import { TooltipHost, ITooltipHostStyles, DirectionalHint } from 'office-ui-fabric-react/lib/Tooltip';
+import { useId } from '@uifabric/react-hooks';
 
 export default function RemoveGroupButton(props){  
 
+  const hostStyles: Partial<ITooltipHostStyles> = { root: { display: 'inline-block', width:'100%' } };
+  const tooltipId = useId('tooltip2');
 
     function getItems() {
         sp.web.lists.getByTitle("syncGroupAppSettings").items.get().then(items => {
@@ -55,7 +59,20 @@ export default function RemoveGroupButton(props){
     
     return(
     
-        <PrimaryButton className={styles.removeButton} text="Remove" onClick={RemoveGroup} disabled={props.progress}/>
+      <div className={styles.width50}>
+        <TooltipHost
+        className={styles.width100}
+        content="This button will send a request to remove the security group from your group. This will remove all members that belong to the security group, but not members that were inside your group before the link."
+        // This id is used on the tooltip itself, not the host
+        // (so an element with this id only exists when the tooltip is shown)
+        id={tooltipId}
+        // calloutProps={calloutProps}
+         styles={hostStyles}
+         directionalHint={DirectionalHint.bottomCenter}
+        >
+        <PrimaryButton aria-describedby={tooltipId} className={styles.removeButton} text="Remove" onClick={RemoveGroup} disabled={props.progress}/>
+        </TooltipHost>
+        </div>
     )
     
     }

@@ -12,8 +12,9 @@ const options: IDropdownOption[] = []
 
 function SelectSecurity(props) {
 
+    
     const [securityGroups, setSecurityGroups] = React.useState([{"Title": "Select a group", "ID":"0"}]); 
-    const [securityGroup, setSecurityGroup] = React.useState("0");
+    const [securityGroup, setSecurityGroup] = React.useState({"Title" : "", "ID" : ""});
     React.useEffect(() =>{
         getItems();
     }, [])
@@ -34,7 +35,8 @@ function SelectSecurity(props) {
     }
 
     function onChange(event, item){
-        setSecurityGroup(item.key);
+        setSecurityGroup({"Title": item.text, "ID" : item.key});
+
         console.log(securityGroup)
     }
     return (
@@ -50,7 +52,7 @@ function SelectSecurity(props) {
             onChange={onChange}
             styles={dropdownStyles}
             />
-            <GroupActionAdd ID={securityGroup} context={props.context} group={props.group} setGroup={props.setGroup}  setProgress={props.setProgress} progress={props.progress}/>
+            <GroupActionAdd ID={securityGroup.ID} securityGroupName={securityGroup.Title} context={props.context} group={props.group} setGroup={props.setGroup}  setProgress={props.setProgress} progress={props.progress}/>
             </div>
          
         </div>
