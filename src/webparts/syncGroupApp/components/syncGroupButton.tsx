@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { sp } from "@pnp/sp";
 import styles from './SyncGroupApp.module.scss';
 import { disableBodyScroll, PrimaryButton } from 'office-ui-fabric-react';
 import { HttpClient, SPHttpClient, HttpClientConfiguration, HttpClientResponse, ODataVersion, IHttpClientConfiguration, IHttpClientOptions, ISPHttpClientOptions } from '@microsoft/sp-http'; 
@@ -28,6 +29,17 @@ export default function SyncGroupButton(props){
              console.log(response) 
              console.log(response.nativeResponse.status) 
              props.setProgress(false) 
+             sp.web.select("AllProperties").expand("AllProperties").get().then(function(result){  
+              // Select the AllProperties from the result
+              console.log(result["AllProperties"]);
+              console.log(result["AllProperties"].MicrosoftGroup)
+              var MicrosoftGroup = JSON.parse(result["AllProperties"].MicrosoftGroup)
+              var SecurityGroup = JSON.parse(result["AllProperties"].SecurityGroupLinked)
+              var LastSync = result["AllProperties"].LastSync
+
+              props.setGroup({"Title": MicrosoftGroup.Name, "ID": MicrosoftGroup.Id, 
+              "SecurityGroupTitle":SecurityGroup.Name,"SecurityGroupID":SecurityGroup.Id, "LastSync":LastSync}); 
+          }); 
             })    
             
                 .catch ((response: any) => {    
@@ -60,6 +72,9 @@ return(
       >
           <PrimaryButton aria-describedby={tooltipId} className={styles.syncButton} text="Sync" onClick={SyncGroup} disabled={props.progress}/>
       </TooltipHost>
+      <div>
+        Last sync was {props.group.LastSync}
+      </div>
     
 </div>
   

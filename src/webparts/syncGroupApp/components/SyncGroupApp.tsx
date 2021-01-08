@@ -20,7 +20,7 @@ export default function SyncGroupApp(props){
 
   const [group, setGroup] = React.useState({"Title" : "", 
   "ID" : "",
-  "isSecurityGroup": false,
+  //"isSecurityGroup": false,
   "SecurityGroupTitle":"",
   "SecurityGroupID":""});
 
@@ -38,18 +38,18 @@ export default function SyncGroupApp(props){
 
         <div className={styles.actionContainer}>
         {
-           !group.isSecurityGroup && 
+           group.SecurityGroupTitle == "" && 
            <div>
                 <GroupInformation group={group} setGroup={setGroup}/> 
                <SelectSecurity context={props.context} group={group} setGroup={setGroup}  setProgress={setProgress} progress={progress}/>   
             </div>  
          }  
          {
-         group.isSecurityGroup && 
+         group.SecurityGroupTitle != "" && 
          <div className={styles.flexAround}>
            <div className={styles.flexColumn}>
            <GroupInformation group={group} setGroup={setGroup}/> 
-           <SyncGroupButton className={styles.width50} context={props.context} group={group} setProgress={setProgress} progress={progress}/>
+           <SyncGroupButton className={styles.width50} context={props.context} setGroup={setGroup} group={group} setProgress={setProgress} progress={progress}/>
             
             </div>
          <div className={styles.flexColumn}>

@@ -12,14 +12,21 @@ export default function RemoveGroupButton(props){
   const tooltipId = useId('tooltip2');
 
     function getItems() {
-        sp.web.lists.getByTitle("syncGroupAppSettings").items.get().then(items => {
-            items.forEach(item => {
-                console.log(item)
-               props.setGroup({"Title": item.Title, "ID": item.MicrosoftGroupID, "isSecurityGroup": item.isSecurityGroup,
-               "SecurityGroupTitle":item.SecurityGroupName,"SecurityGroupID":item.SecurityGroupID});
-            });    
-            props.setProgress(false)    
-        })
+    
+
+        sp.web.select("AllProperties").expand("AllProperties").get().then(function(result){  
+          // Select the AllProperties from the result
+          console.log(result["AllProperties"]);
+          console.log(result["AllProperties"].MicrosoftGroup)
+          var MicrosoftGroup = JSON.parse(result["AllProperties"].MicrosoftGroup)
+          var SecurityGroup = JSON.parse(result["AllProperties"].SecurityGroupLinked)
+          
+          props.setGroup({"Title": MicrosoftGroup.Name, "ID": MicrosoftGroup.Id, 
+          "SecurityGroupTitle":SecurityGroup.Name,"SecurityGroupID":SecurityGroup.Id}); 
+          //console.log(props.group)
+      }); 
+      props.setProgress(false) 
+
     }
 
     var functionUrl = "https://powershellgroupoperation.azurewebsites.net/api/RemoveSecurityGroup?code=7pN0k7aOKTH2Kg9hkj12zuiKe9kvKRXfiTLQb1rdCa7Tojcvw4E9Nw==";    

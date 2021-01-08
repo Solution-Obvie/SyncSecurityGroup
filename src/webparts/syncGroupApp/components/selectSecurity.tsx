@@ -24,14 +24,21 @@ function SelectSecurity(props) {
     })
 
     function getItems() {
-        sp.web.lists.getByTitle("Security Groups").items.get().then(items => {
-            items.forEach(item => {
-                options.push({key: item.GroupID, text: item.Title})
-               setSecurityGroups(securityGroups => securityGroups.concat({"Title": item.Title, "ID": item.GroupID}));
-            });
-          
+
+
+        sp.web.select("AllProperties").expand("AllProperties").get().then(function(result){  
+            // Select the AllProperties from the result
+            var securityGroups = JSON.parse(result["AllProperties"].SecurityGroups)
+            console.log(securityGroups)
+            securityGroups.forEach( group => {
+                
+                if(options.length != securityGroups.length ){
+                    options.push({key: group.Id, text: group.Name})
+                }
            
-        })
+                setSecurityGroups(securityGroups => securityGroups.concat({"Title": group.Name, "ID": group.Id}));
+            })
+        }); 
     }
 
     function onChange(event, item){

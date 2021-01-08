@@ -5,7 +5,7 @@ import { Item } from '@pnp/sp/items';
 
 function GroupInformation(props){
 
-  
+
 
 
     React.useEffect(() =>{
@@ -15,19 +15,26 @@ function GroupInformation(props){
 
 
     function getItems() {
-        sp.web.lists.getByTitle("syncGroupAppSettings").items.get().then(items => {
-            items.forEach(item => {
-                console.log(item)
-               props.setGroup({"Title": item.Title, "ID": item.MicrosoftGroupID, "isSecurityGroup": item.isSecurityGroup,
-               "SecurityGroupTitle":item.SecurityGroupName,"SecurityGroupID":item.SecurityGroupID});
-            });        
-        })
+
+        sp.web.select("AllProperties").expand("AllProperties").get().then(function(result){  
+            // Select the AllProperties from the result
+            console.log(result["AllProperties"]);
+            console.log(result["AllProperties"].MicrosoftGroup)
+            var MicrosoftGroup = JSON.parse(result["AllProperties"].MicrosoftGroup)
+            var SecurityGroup = JSON.parse(result["AllProperties"].SecurityGroupLinked)
+            var LastSync = result["AllProperties"].LastSync
+            
+            props.setGroup({"Title": MicrosoftGroup.Name, "ID": MicrosoftGroup.Id, 
+            "SecurityGroupTitle":SecurityGroup.Name,"SecurityGroupID":SecurityGroup.Id, "LastSync":LastSync}); 
+            //console.log(props.group)
+        }); 
+
     }
 
     return(
         <div>  
             {
-                props.group.isSecurityGroup &&
+                props.group.SecurityGroupTitle != "" &&
                 <div>
             <div>Group Name :</div>
             <div className={styles.groupName}>{props.group.Title}</div>
