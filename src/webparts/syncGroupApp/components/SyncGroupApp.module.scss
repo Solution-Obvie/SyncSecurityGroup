@@ -28,13 +28,41 @@
     display: flex;
     justify-content: space-around;
   }
+  .flexAround100{
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    margin-top: 10px;
+  }
   .flexColumn{
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 50%;
   }
+  .marginTop5{
+    margin-top: 5px;
+  }
+  .fontWeigth600{
+    font-weight: 600;
+  }
+  .flexColumn100{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    
+  }
+  .flexColumn30{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 40%;
+  }
 
+  .marginTop10{
+    margin-top: 10px;;
+  }
   .buttonContainer{
     display: flex;
     justify-content: space-around;

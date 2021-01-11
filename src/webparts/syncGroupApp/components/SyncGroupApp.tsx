@@ -13,6 +13,7 @@ import SyncGroupAppWebPart from '../SyncGroupAppWebPart';
 import SyncGroupButton from './syncGroupButton'
 import RemoveGroupButton from './removeGroupButton'
 import SecurityGroupInformation from './securityGroupInformation'
+import LastSync from './lastSync'
 import { ProgressIndicator } from 'office-ui-fabric-react/lib/ProgressIndicator';
 
 
@@ -22,7 +23,7 @@ export default function SyncGroupApp(props){
   "ID" : "",
   //"isSecurityGroup": false,
   "SecurityGroupTitle":"",
-  "SecurityGroupID":""});
+  "SecurityGroupID":"", "LastSync":""});
 
   const [progress, setProgress] = React.useState(false);
     
@@ -46,6 +47,7 @@ export default function SyncGroupApp(props){
          }  
          {
          group.SecurityGroupTitle != "" && 
+         <div>
          <div className={styles.flexAround}>
            <div className={styles.flexColumn}>
            <GroupInformation group={group} setGroup={setGroup}/> 
@@ -56,6 +58,14 @@ export default function SyncGroupApp(props){
             <SecurityGroupInformation group={group}/>
            <RemoveGroupButton className={styles.width50} context={props.context} group={group} setGroup={setGroup} setProgress={setProgress} progress={progress}/>
          </div> 
+         </div>
+         <div className={styles.flexColumn100}>
+           <div className={styles.marginTop10}>
+         <div className={styles.groupName}>Last Synchronization {group.LastSync}</div>
+          </div>
+          <LastSync group={group} />
+         </div>
+         
          </div>
          }
        

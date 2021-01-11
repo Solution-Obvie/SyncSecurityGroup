@@ -36,9 +36,25 @@ export default function SyncGroupButton(props){
               var MicrosoftGroup = JSON.parse(result["AllProperties"].MicrosoftGroup)
               var SecurityGroup = JSON.parse(result["AllProperties"].SecurityGroupLinked)
               var LastSync = result["AllProperties"].LastSync
+              var AddedMembers = result["AllProperties"].AddedMember
+              if(AddedMembers != " "){
+                  AddedMembers = JSON.parse(AddedMembers)
+              }
+              else{
+                  AddedMembers = []
+              }
+              var RemovedMembers = result["AllProperties"].RemovedMember
+              if(RemovedMembers != " "){
+                  RemovedMembers = JSON.parse(RemovedMembers)
+              }
+              else{
+                  RemovedMembers = []
+              }
+  
 
               props.setGroup({"Title": MicrosoftGroup.Name, "ID": MicrosoftGroup.Id, 
-              "SecurityGroupTitle":SecurityGroup.Name,"SecurityGroupID":SecurityGroup.Id, "LastSync":LastSync}); 
+              "SecurityGroupTitle":SecurityGroup.Name,"SecurityGroupID":SecurityGroup.Id, "LastSync":LastSync,
+               "AddedMembers" : AddedMembers, "RemovedMembers" : RemovedMembers }); 
           }); 
             })    
             
@@ -73,7 +89,7 @@ return(
           <PrimaryButton aria-describedby={tooltipId} className={styles.syncButton} text="Sync" onClick={SyncGroup} disabled={props.progress}/>
       </TooltipHost>
       <div>
-        Last sync was {props.group.LastSync}
+       
       </div>
     
 </div>
