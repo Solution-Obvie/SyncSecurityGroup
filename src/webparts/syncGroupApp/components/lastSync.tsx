@@ -4,13 +4,6 @@ import styles from './SyncGroupApp.module.scss';
 
 export default function LastSync(props){ 
 
-console.log(props.group)
-
-// const added = props.group.AddedMembers
-// console.log(added)
-console.log(props.group)
-
-
 return(
     
     <div className={styles.flexAround100}>

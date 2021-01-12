@@ -5,63 +5,27 @@ import { sp } from "@pnp/sp";
 import { HttpClient, SPHttpClient, HttpClientConfiguration, HttpClientResponse, ODataVersion, IHttpClientConfiguration, IHttpClientOptions, ISPHttpClientOptions } from '@microsoft/sp-http'; 
 import { TooltipHost, ITooltipHostStyles, DirectionalHint } from 'office-ui-fabric-react/lib/Tooltip';
 import { useId } from '@uifabric/react-hooks';
+import { getItem } from './functions/updateItem'
+import {callAzureFunction} from './functions/callAzureFunction'
 
 export default function RemoveGroupButton(props){  
 
   const hostStyles: Partial<ITooltipHostStyles> = { root: { display: 'inline-block', width:'100%' } };
   const tooltipId = useId('tooltip2');
 
-    function getItems() {
-    
-
-        sp.web.select("AllProperties").expand("AllProperties").get().then(function(result){  
-          // Select the AllProperties from the result
-          console.log(result["AllProperties"]);
-          console.log(result["AllProperties"].MicrosoftGroup)
-          var MicrosoftGroup = JSON.parse(result["AllProperties"].MicrosoftGroup)
-          var SecurityGroup = JSON.parse(result["AllProperties"].SecurityGroupLinked)
-          
-          props.setGroup({"Title": MicrosoftGroup.Name, "ID": MicrosoftGroup.Id, 
-          "SecurityGroupTitle":SecurityGroup.Name,"SecurityGroupID":SecurityGroup.Id}); 
-          //console.log(props.group)
-      }); 
-      props.setProgress(false) 
-
-    }
-
-    var functionUrl = "https://powershellgroupoperation.azurewebsites.net/api/RemoveSecurityGroup?code=7pN0k7aOKTH2Kg9hkj12zuiKe9kvKRXfiTLQb1rdCa7Tojcvw4E9Nw==";    
-    function callAzureFunction() {    
-          const requestHeaders: Headers = new Headers();    
-          requestHeaders.append("Content-type", "application/json");  
-          requestHeaders.append("Cache-Control", "no-cache");    
-            
-          var siteUrl: string = props.context.pageContext.web.absoluteUrl;      
-          var body = `{ microsoftgroupID:  '${props.group.ID}', securitygroupID:  '${props.group.SecurityGroupID}', siteUrl: '${siteUrl}'}`
-          console.log(body)
-            const postOptions: IHttpClientOptions = {    
-            headers: requestHeaders,
-            body:`{ microsoftgroupID:  '${props.group.ID}', securitygroupID:  '${props.group.SecurityGroupID}', siteUrl: '${siteUrl}'}`
-          };    
-            
-            props.context.httpClient.post(functionUrl, HttpClient.configurations.v1, postOptions).then((response) =>{     
-             console.log(response) 
-             console.log(response.nativeResponse.status)  
-             if(response.nativeResponse.status == 200)
-             {
-                 getItems();
-             }
-            })    
-            
-                .catch ((response: any) => {    
-                let errMsg: string = `WARNING - error when calling URL ${functionUrl}. Error = ${response.message}`;    
-                console.log(errMsg)
-              });       
-      }    
-
+    var functionUri = "https://powershellgroupoperation.azurewebsites.net/api/RemoveSecurityGroup?code=7pN0k7aOKTH2Kg9hkj12zuiKe9kvKRXfiTLQb1rdCa7Tojcvw4E9Nw==";    
 
     function RemoveGroup(){
-        props.setProgress(true)
-      callAzureFunction();
+      props.setProgress(true)
+      callAzureFunction(functionUri, props.context, props.group.ID, props.group.SecurityGroupID)
+      .then(data =>
+        getItem()
+        .then(data => {
+          props.setGroup(data)
+          props.setProgress(false)
+        }
+        )
+      )  
     }
     
     return(
