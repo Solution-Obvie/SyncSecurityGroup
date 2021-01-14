@@ -12,7 +12,8 @@ export default function SyncGroupButton(props){
 
   const hostStyles: Partial<ITooltipHostStyles> = { root: { display: 'inline-block', width:'100%' } };
   const tooltipId = useId('tooltip');
-    var functionUri = "https://powershellgroupoperation.azurewebsites.net/api/CompareGroup";     
+    var functionUri = "https://powershellgroupoperation.azurewebsites.net/api/CompareGroup";    
+    
     function SyncGroup(){
       props.setProgress(true)
       callAzureFunction(functionUri, props.context, props.group.ID, props.group.SecurityGroupID)

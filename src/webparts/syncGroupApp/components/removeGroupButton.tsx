@@ -13,12 +13,14 @@ export default function RemoveGroupButton(props){
   const hostStyles: Partial<ITooltipHostStyles> = { root: { display: 'inline-block', width:'100%' } };
   const tooltipId = useId('tooltip2');
 
-    var functionUri = "https://powershellgroupoperation.azurewebsites.net/api/RemoveSecurityGroup?code=7pN0k7aOKTH2Kg9hkj12zuiKe9kvKRXfiTLQb1rdCa7Tojcvw4E9Nw==";    
-
+    //var functionUri = "https://powershellgroupoperation.azurewebsites.net/api/RemoveSecurityGroup?code=7pN0k7aOKTH2Kg9hkj12zuiKe9kvKRXfiTLQb1rdCa7Tojcvw4E9Nw==";  
+   
+    var functionUri = "https://powershellgroupoperation.azurewebsites.net/api/RemoveSecurityGroup"
+    
     function RemoveGroup(){
       props.setProgress(true)
       callAzureFunction(functionUri, props.context, props.group.ID, props.group.SecurityGroupID)
-      .then(data =>
+      .then(data =>     
         getItem()
         .then(data => {
           props.setGroup(data)
@@ -28,7 +30,7 @@ export default function RemoveGroupButton(props){
       )  
     }
     
-    return(
+    return( 
     
       <div className={styles.width50}>
         <TooltipHost

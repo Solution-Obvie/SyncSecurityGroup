@@ -73,8 +73,8 @@ function CreateAzureAdApp {
            
             # Update azure ad app registration using CLI
             Write-Host "Azure AD App '$AzureAppName' already exists - updating existing app..." -ForegroundColor Yellow
-
-            az ad app update --id $app.appId --required-resource-accesses './manifest.json' 
+            $global:azureAppId = $app.appId
+            az ad app update --id $global:azureAppId --required-resource-accesses './manifest.json' 
 
             Write-Host "Waiting for app to finish updating..."
 
@@ -90,10 +90,12 @@ function CreateAzureAdApp {
             $app = Initialize-PnPPowerShellAuthentication -ApplicationName $AzureAppName -Tenant $TenantName -OutPath .\certificates -CertificatePassword (ConvertTo-SecureString -String "MyPassword" -AsPlainText -Force)
             $global:certificatThumbprint = $app.'Certificate Thumbprint'
             $global:azureAppId = $app.AzureAppId
+            az ad app update --id $global:azureAppId --required-resource-accesses './manifest.json' 
+
 
 
         }
-
+        #$global:certificatThumbprint = $app.'Certificate Thumbprint'
 
         Write-Host "Granting admin consent for Microsoft Graph..." -ForegroundColor Yellow
 
@@ -126,9 +128,14 @@ $pnpConnect = Connect-PnPOnline -Url $tenantAdminUrl -Credentials (Get-Credentia
 
 
 #Registering the Azure Ad Application
+#CreateAzureAdApp
 
+#Deploy Azure Function*
+#az functionapp create -g "SPFX_SyncGroup_RG" -n "functionAppSyncTest" -s "storageaccountspfxs8dd7" --consumption-plan-location "westus" --functions-version 3 --runtime "powershell" --runtime-version "7.0" --subscription "d6bb92ec-09b1-468a-b1b4-3460076686e4"
+az functionapp config appsettings set --name "functionAppSyncTest" --resource-group "SPFX_SyncGroup_RG" --settings "AdminSharePointSite=$global:tenantAdminUrl"
+az functionapp config appsettings set --name "functionAppSyncTest" --resource-group "SPFX_SyncGroup_RG" --settings "AzureAppId=c5d7f56a-bad4-4adb-b606-a8b0cd4aa9bf"
+az functionapp config appsettings set --name "functionAppSyncTest" --resource-group "SPFX_SyncGroup_RG" --settings "TenantId=$TenantId"
+az functionapp config appsettings set --name "functionAppSyncTest" --resource-group "SPFX_SyncGroup_RG" --settings "WEBSITE_USE_ZIP=1"
+az functionapp config appsettings set --name "functionAppSyncTest" --resource-group "SPFX_SyncGroup_RG" --settings "WEBSITE_LOAD_CERTIFICATES=730D95220B36B414BF0422EE0FF9A7BC634A121A"
 
-#Adding permission
-UpdateAzureAdApp
-
-#Deploy Azure Function
+az functionapp config ssl upload --certificate-file './certificates/SyncGroupTest.pfx' --certificate-password "MyPassword" --name "functionAppSyncTest" --resource-group "SPFX_SyncGroup_RG"

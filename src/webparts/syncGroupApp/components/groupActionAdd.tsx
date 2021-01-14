@@ -13,6 +13,7 @@ export default function GroupActionAdd(props) {
 
 
     var functionUri = "https://powershellgroupoperation.azurewebsites.net/api/AddSecurityGroup";    
+
     function AddGroup(){
       props.setProgress(true)
       callAzureFunction(functionUri, props.context, props.group.ID, props.ID)
