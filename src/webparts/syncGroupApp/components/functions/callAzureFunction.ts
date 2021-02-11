@@ -15,7 +15,7 @@ export function callAzureFunction(functionUri, context, microsoftGroupID, securi
         };   
      
           
-          context.httpClient.post(functionUri, HttpClient.configurations.v1, postOptions).then((response) =>{     
+          context.httpClient.post(functionUri , HttpClient.configurations.v1, postOptions).then((response) =>{     
            console.log(response) 
            console.log(response.nativeResponse.status) 
            resolve({"status": response.nativeResponse.status})

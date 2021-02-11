@@ -15,7 +15,7 @@ export default function RemoveGroupButton(props){
 
     //var functionUri = "https://powershellgroupoperation.azurewebsites.net/api/RemoveSecurityGroup?code=7pN0k7aOKTH2Kg9hkj12zuiKe9kvKRXfiTLQb1rdCa7Tojcvw4E9Nw==";  
    
-    var functionUri = "https://powershellgroupoperation.azurewebsites.net/api/RemoveSecurityGroup"
+    var functionUri = "https://"+props.group.functionAppAzure+".azurewebsites.net/api/RemoveSecurityGroup"
     
     function RemoveGroup(){
       props.setProgress(true)

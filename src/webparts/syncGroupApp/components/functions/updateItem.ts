@@ -10,6 +10,7 @@ import { sp } from "@pnp/sp";
             console.log(result["AllProperties"].MicrosoftGroup)
             var MicrosoftGroup = JSON.parse(result["AllProperties"].MicrosoftGroup)
             var SecurityGroup = JSON.parse(result["AllProperties"].SecurityGroupLinked)
+            var functionAppAzureName =  result["AllProperties"].FunctionAppAzure
             var LastSync = result["AllProperties"].LastSync
             var AddedMembers = result["AllProperties"].AddedMember
             if(AddedMembers != " "){
@@ -46,7 +47,7 @@ import { sp } from "@pnp/sp";
     
             resolve({"Title": MicrosoftGroup.Name, "ID": MicrosoftGroup.Id, 
             "SecurityGroupTitle":SecurityGroup.Name,"SecurityGroupID":SecurityGroup.Id, "LastSync":LastSync,
-            "AddedMembers":  AddedMembers, "RemovedMembers" : RemovedMembers  })
+            "AddedMembers":  AddedMembers, "RemovedMembers" : RemovedMembers, "functionAppAzure": functionAppAzureName  })
            
         }); 
 

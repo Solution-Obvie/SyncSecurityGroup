@@ -12,7 +12,7 @@ import {callAzureFunction} from './functions/callAzureFunction'
 export default function GroupActionAdd(props) {
 
 
-    var functionUri = "https://powershellgroupoperation.azurewebsites.net/api/AddSecurityGroup";    
+    var functionUri = "https://"+props.group.functionAppAzure+".azurewebsites.net/api/AddSecurityGroup";    
 
     function AddGroup(){
       props.setProgress(true)
