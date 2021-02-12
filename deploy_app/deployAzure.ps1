@@ -146,8 +146,11 @@ az functionapp create -g  $ResourceGroupName -n $FunctionAppName -s $StorageAcco
 az functionapp config appsettings set --name $FunctionAppName --resource-group $ResourceGroupName --settings "AdminSharePointSite=$global:tenantAdminUrl"
 az functionapp config appsettings set --name $FunctionAppName --resource-group $ResourceGroupName --settings "AzureAppId= $global:azureAppId"
 az functionapp config appsettings set --name $FunctionAppName --resource-group $ResourceGroupName --settings "TenantId=$TenantId"
-az functionapp config appsettings set --name $FunctionAppName --resource-group $ResourceGroupName --settings "WEBSITE_USE_ZIP=1"
+#az functionapp config appsettings set --name $FunctionAppName --resource-group $ResourceGroupName --settings "WEBSITE_USE_ZIP=1"
 az functionapp config appsettings set --name $FunctionAppName --resource-group $ResourceGroupName --settings "WEBSITE_LOAD_CERTIFICATES= $global:certificatThumbprint"
 #Uploading certificate
 $certificate = "./certificates/$AzureAppName.pfx"
 az functionapp config ssl upload --certificate-file $certificate --certificate-password "MyPassword" --name $FunctionAppName --resource-group $ResourceGroupName
+
+#Uploading scripts
+az functionapp deployment source config-zip -g $ResourceGroupName -n $FunctionAppName --src .\PowerShellGroupOperation.zip
