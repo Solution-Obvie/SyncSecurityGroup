@@ -7,12 +7,26 @@ Param(
     $TenantName,
     [Parameter(Mandatory = $true)]
     [String]
-    $FunctionAppName
-
+    $FunctionAppName,
+    [Parameter(Mandatory = $true)]
+    [String]
+    $AzureAppId,
+    [Parameter(Mandatory = $true)]
+    [String]
+    $TenantId,
+    [Parameter(Mandatory = $true)]
+    [String]
+    $Thumbprint
 )
 
 
-Connect-PnPOnline -Url $SiteUrl -Credentials (Get-Credential)
+
+Connect-PnPOnline -ClientId $AzureAppId -Thumbprint $Thumbprint -Tenant $TenantId -Url $SiteUrl
+
+#add spo service
+Connect-SPOService -Url $spadmin
+Set-SPOsite $SiteUrl -DenyAddAndCustomizePages 0
+
 $m365Name = Get-PnPPropertyBag -key "GroupAlias"
 $m365Id = Get-PnPPropertyBag -key "GroupId"
 $MicrosoftGroup = @{Id = $m365Id ; Name = $m365Name}
@@ -43,6 +57,4 @@ $securityGroupsJson = $securityGroups | ConvertTo-Json
 Set-PnPPropertyBagValue -Key "SecurityGroups" -Value $securityGroupsJson 
 
 #deploy app to web site
-$url = "https://"+$TenantName+".sharepoint.com"
-Connect-PnPOnline -Url $url -Credentials (Get-Credential)
-Add-PnPApp -Path ..\sharepoint\solution\sync-group-app.sppkg -Scope Site -Publish
+Install-PnPApp -Identity A2ED129B-2C98-4CDC-BC7D-7CE95A2EF468

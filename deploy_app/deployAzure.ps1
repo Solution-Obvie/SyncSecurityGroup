@@ -133,7 +133,7 @@ function CreateAzureAdApp {
 #Connections 
 Connect-AzureAD
 $cliLogin = az login --allow-no-subscriptions
-#$pnpConnect = Connect-PnPOnline -Url $tenantAdminUrl -Credentials (Get-Credential)
+$pnpConnect = Connect-PnPOnline -Url $tenantUrl -Credentials (Get-Credential)
 
 
 #Registering the Azure Ad Application
@@ -151,6 +151,8 @@ az functionapp config appsettings set --name $FunctionAppName --resource-group $
 #Uploading certificate
 $certificate = "./certificates/$AzureAppName.pfx"
 az functionapp config ssl upload --certificate-file $certificate --certificate-password "MyPassword" --name $FunctionAppName --resource-group $ResourceGroupName
-
+az functionapp cors add -g $ResourceGroupName -n $FunctionAppName --allowed-origins $global:tenantUrl
 #Uploading scripts
 az functionapp deployment source config-zip -g $ResourceGroupName -n $FunctionAppName --src .\PowerShellGroupOperation.zip
+
+Add-PnPApp -Path "..\sharepoint\solution\sync-group-app.sppkg" -Publish
