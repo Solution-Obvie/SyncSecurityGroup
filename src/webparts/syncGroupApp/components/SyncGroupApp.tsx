@@ -32,7 +32,7 @@ export default function SyncGroupApp(props){
         <div className={ styles.container }>
          <div className={styles.titleContainer}>
            <div className={styles.appTitle}>
-           Synchronise your group application 
+           Synchronize your group application 
            </div>
            {/* <div className={styles.underlineTitle}></div> */}
          </div>

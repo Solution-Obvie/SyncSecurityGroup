@@ -21,6 +21,9 @@ Param(
     [String]
     $SubscriptionId,
     [Parameter(Mandatory = $true)]
+    [SecureString]
+    $CertificatePassword,
+    [Parameter(Mandatory = $true)]
     [String]
     $ResourceGroupName
 )
@@ -96,7 +99,8 @@ function CreateAzureAdApp {
             # Create the app
             Write-Host "No Azure Ad app found" -ForegroundColor Yellow
             
-            $app = Initialize-PnPPowerShellAuthentication -ApplicationName $AzureAppName -Tenant $FullTenantName -OutPath .\certificates -CertificatePassword (ConvertTo-SecureString -String "MyPassword" -AsPlainText -Force)
+            $app = Initialize-PnPPowerShellAuthentication -ApplicationName $AzureAppName -Tenant $FullTenantName -OutPath .\certificates -CertificatePassword $CertificatePassword
+            #(ConvertTo-SecureString -String "MyPassword" -AsPlainText -Force)
             $global:certificatThumbprint = $app.'Certificate Thumbprint'
             $global:azureAppId = $app.AzureAppId
             az ad app update --id $global:azureAppId --required-resource-accesses './manifest.json' 
