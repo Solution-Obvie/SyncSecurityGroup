@@ -1,8 +1,8 @@
 ﻿$fullTenantName = "o365secondtenantobvie.onmicrosoft.com"
 $tenantName = "o365secondtenantobvie"
 $tenantId = "9dadc14c-6b46-4a9b-bf3b-ddab7bc5161d"
-$azureAppName = "SyncGroupTest6"
-$functionAppName = "PowershellOperation6"
+$azureAppName = "SyncGroupTest7"
+$functionAppName = "PowershellOperation7"
 $storageAccount = "storageaccountsync"
 $resourceGroup = "SecondTenantTestResourceGroup"
 $subscriptionId = "69379d11-2a14-4dd1-8df6-32f1dae0e50f"
@@ -16,7 +16,7 @@ $thumbprint = "8B23F2E877251D4CC90A38EE4508F1B7A34404D3"
 
 
 
-.\deployAzure.ps1 -FullTenantName $fullTenantName -TenantName $tenantName -TenantId $tenantId -AzureAppName $azureAppName -FunctionAppName $functionAppName -StorageAccount $storageAccount -SubscriptionId $subscriptionId -ResourceGroupName $resourceGroup
+.\deployAzure.ps1 -FullTenantName $fullTenantName -TenantName $tenantName -TenantId $tenantId -AzureAppName $azureAppName -FunctionAppName $functionAppName -StorageAccount $storageAccount -SubscriptionId $subscriptionId -ResourceGroupName $resourceGroup -CertificatePassword "myPassword" 
 
 .\deploySPFX.ps1 -SiteUrl $siteUrl -TenantName $tenantName -FunctionAppName $functionAppName -AzureAppId $azureAppId -TenantId $tenantId -Thumbprint $thumbprint
 

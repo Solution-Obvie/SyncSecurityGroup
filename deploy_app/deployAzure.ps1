@@ -21,7 +21,7 @@ Param(
     [String]
     $SubscriptionId,
     [Parameter(Mandatory = $true)]
-    [SecureString]
+    [String]
     $CertificatePassword,
     [Parameter(Mandatory = $true)]
     [String]
@@ -99,8 +99,8 @@ function CreateAzureAdApp {
             # Create the app
             Write-Host "No Azure Ad app found" -ForegroundColor Yellow
             
-            $app = Initialize-PnPPowerShellAuthentication -ApplicationName $AzureAppName -Tenant $FullTenantName -OutPath .\certificates -CertificatePassword $CertificatePassword
-            #(ConvertTo-SecureString -String "MyPassword" -AsPlainText -Force)
+            $app = Initialize-PnPPowerShellAuthentication -ApplicationName $AzureAppName -Tenant $FullTenantName -OutPath .\certificates -CertificatePassword (ConvertTo-SecureString -String $CertificatePassword -AsPlainText -Force)
+            #
             $global:certificatThumbprint = $app.'Certificate Thumbprint'
             $global:azureAppId = $app.AzureAppId
             az ad app update --id $global:azureAppId --required-resource-accesses './manifest.json' 
@@ -154,7 +154,7 @@ az functionapp config appsettings set --name $FunctionAppName --resource-group $
 az functionapp config appsettings set --name $FunctionAppName --resource-group $ResourceGroupName --settings "WEBSITE_LOAD_CERTIFICATES= $global:certificatThumbprint"
 #Uploading certificate
 $certificate = "./certificates/$AzureAppName.pfx"
-az functionapp config ssl upload --certificate-file $certificate --certificate-password "MyPassword" --name $FunctionAppName --resource-group $ResourceGroupName
+az functionapp config ssl upload --certificate-file $certificate --certificate-password (ConvertTo-SecureString -String $CertificatePassword -AsPlainText -Force) --name $FunctionAppName --resource-group $ResourceGroupName
 az functionapp cors add -g $ResourceGroupName -n $FunctionAppName --allowed-origins $global:tenantUrl
 #Uploading scripts
 az functionapp deployment source config-zip -g $ResourceGroupName -n $FunctionAppName --src .\PowerShellGroupOperation.zip
