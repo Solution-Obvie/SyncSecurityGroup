@@ -25,6 +25,9 @@ Param(
     $CertificatePassword,
     [Parameter(Mandatory = $true)]
     [String]
+    $Location,
+    [Parameter(Mandatory = $true)]
+    [String]
     $ResourceGroupName
 )
 
@@ -145,7 +148,7 @@ CreateAzureAdApp
 
 #Deploy Azure Function*
 #Create function app
-az functionapp create -g  $ResourceGroupName -n $FunctionAppName -s $StorageAccount --consumption-plan-location "westus" --functions-version 3 --runtime "powershell" --runtime-version "7.0" --subscription $SubscriptionId
+az functionapp create -g  $ResourceGroupName -n $FunctionAppName -s $StorageAccount --consumption-plan-location $Location --functions-version 3 --runtime "powershell" --runtime-version "7.0" --subscription $SubscriptionId
 #Adding app settings
 az functionapp config appsettings set --name $FunctionAppName --resource-group $ResourceGroupName --settings "AdminSharePointSite=$global:tenantAdminUrl"
 az functionapp config appsettings set --name $FunctionAppName --resource-group $ResourceGroupName --settings "AzureAppId= $global:azureAppId"
